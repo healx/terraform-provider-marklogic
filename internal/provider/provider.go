@@ -26,11 +26,34 @@ func init() {
 func New(version string) func() *schema.Provider {
 	return func() *schema.Provider {
 		p := &schema.Provider{
+			Schema: map[string]*schema.Schema{
+				"username": {
+					Type:     schema.TypeString,
+					Optional: true,
+					DefaultFunc: schema.MultiEnvDefaultFunc([]string{
+						"MARKLOGIC_USERNAME",
+					}, nil),
+				},
+				"password": {
+					Type:     schema.TypeString,
+					Optional: true,
+					DefaultFunc: schema.MultiEnvDefaultFunc([]string{
+						"MARKLOGIC_PASSWORD",
+					}, nil),
+				},
+				"base_url": {
+					Type:     schema.TypeString,
+					Optional: true,
+					DefaultFunc: schema.MultiEnvDefaultFunc([]string{
+						"MARKLOGIC_BASE_URL",
+					}, nil),
+				},
+			},
 			DataSourcesMap: map[string]*schema.Resource{
-				"scaffolding_data_source": dataSourceScaffolding(),
+				"marklogic_user": dataSourceUser(),
 			},
 			ResourcesMap: map[string]*schema.Resource{
-				"scaffolding_resource": resourceScaffolding(),
+				"marklogic_user": resourceUser(),
 			},
 		}
 
@@ -44,14 +67,19 @@ type apiClient struct {
 	// Add whatever fields, client or connection info, etc. here
 	// you would need to setup to communicate with the upstream
 	// API.
+	baseUrl   string
+	userAgent string
+	username  string
+	password  string
 }
 
 func configure(version string, p *schema.Provider) func(context.Context, *schema.ResourceData) (interface{}, diag.Diagnostics) {
-	return func(context.Context, *schema.ResourceData) (interface{}, diag.Diagnostics) {
-		// Setup a User-Agent for your API client (replace the provider name for yours):
-		// userAgent := p.UserAgent("terraform-provider-scaffolding", version)
-		// TODO: myClient.UserAgent = userAgent
-
-		return &apiClient{}, nil
+	return func(_ context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
+		return &apiClient{
+			baseUrl:   d.Get("base_url").(string),
+			userAgent: p.UserAgent("terraform-provider-marklogic", version),
+			username:  d.Get("username").(string),
+			password:  d.Get("password").(string),
+		}, nil
 	}
 }
