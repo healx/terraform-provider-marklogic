@@ -9,7 +9,6 @@ import (
 
 func dataSourceUser() *schema.Resource {
 	return &schema.Resource{
-		// This description is used by the documentation generator and the language server.
 		Description: "A user in Marklogic.",
 
 		ReadContext: dataSourceUserRead,
@@ -38,9 +37,6 @@ func dataSourceUser() *schema.Resource {
 }
 
 func dataSourceUserRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	// use the meta value to retrieve your client from the provider configure method
-	// client := meta.(*apiClient)
-
 	client := meta.(*apiClient)
 
 	name := d.Get("name").(string)
