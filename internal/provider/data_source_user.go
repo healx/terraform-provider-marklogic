@@ -10,7 +10,7 @@ import (
 func dataSourceUser() *schema.Resource {
 	return &schema.Resource{
 		// This description is used by the documentation generator and the language server.
-		Description: "Sample data source in the Terraform provider scaffolding.",
+		Description: "A user in Marklogic.",
 
 		ReadContext: dataSourceUserRead,
 

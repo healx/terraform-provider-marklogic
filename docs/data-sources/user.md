@@ -3,12 +3,12 @@
 page_title: "marklogic_user Data Source - terraform-provider-marklogic"
 subcategory: ""
 description: |-
-  Sample data source in the Terraform provider scaffolding.
+  A user in Marklogic.
 ---
 
 # marklogic_user (Data Source)
 
-Sample data source in the Terraform provider scaffolding.
+A user in Marklogic.
 
 ## Example Usage
 
