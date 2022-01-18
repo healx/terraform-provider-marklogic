@@ -67,9 +67,6 @@ func resourceUserCreate(ctx context.Context, d *schema.ResourceData, meta interf
 }
 
 func resourceUserRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	// use the meta value to retrieve your client from the provider configure method
-	// client := meta.(*apiClient)
-	// use the meta value to retrieve your client from the provider configure method
 	client := meta.(*apiClient)
 
 	name := d.Get("name").(string)
